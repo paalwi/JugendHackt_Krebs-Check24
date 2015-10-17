@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+<script>
+
+var rand = {oben:20, links:50, rechts:20, unten:50};
+
+
+var hoehe= 350-rand.oben-rand.unten,
+breite= 600-rand.links-rand.rechts;
+
+
+var x = d3.scale.linear()
+.range([0, breite]);
+
+
+var y = d3.scale.linear()
+.range([hoehe, 0]);
+
+var y2 = d3.scale.linear()
+.range([hoehe, 0])
+
+var xAchse = d3.svg.axis()
+	.scale(x)
+	.orient("bottom");
+
+var yAchse = d3.svg.axis()
+	.scale(y)
+	.orient("left");
+
+var linie = d3.svg.line()
+	.x(function(d){return x(d.Jahr);})
+	.y(function(d){return y(d.Wert);})
+var linie2 = d3.svg.line()
+	.x(function(d){return x(d.Jahr);})
+	.y(function(d){return y2(d.Wert);})
+
+
+var svg = d3.select("body").append("svg")
+	.attr("height", hoehe+rand.oben+rand.unten)
+	.attr("width", breite+rand.links+rand.rechts)
+	.append("g").attr("transform","translate("+rand.links+","+rand.oben+")");
+
+queue()
+	.defer(d3.csv,"mortalitaet.csv")
+	.defer(d3.csv,"inzidenzen.csv")
+	.await(ready);
+function ready(error, mortalitaet, inzidenzen){
+x.domain(d3.extent(mortalitaet, function(d){return d.Jahr;}))
+y.domain(d3.extent(mortalitaet, function(d){return d.Wert;}))
+y2.domain(d3.extent(inzidenzen, function(d){return d.Wert;}))
+
+svg.append("g")
+.attr("class", "x axis")
+.attr("transform", "translate(0, "+hoehe+")")
+.call(xAchse);
+svg.append("g")
+.attr("class", "y axis")
+.call(yAchse);
+svg.append("path").datum(mortalitaet)
+.attr("class","line")
+.attr("d", linie);
+
+svg.append("path").datum(inzidenzen)
+.attr("class","line")
+.attr("d", linie2);
+
+
+};
+
+
+
+
+</script>
