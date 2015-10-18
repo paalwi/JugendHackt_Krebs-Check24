@@ -17,12 +17,14 @@ body {
 
 .line {
   fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
+  stroke: green;
+  stroke-width: 3px;
 }
 
 </style>
 <body>
+<h1> Mehr Männer sterben an Krebs als Frauen </h1> </br>
+alterstandardisierte Rate <br> pro 100.000 Einwohner </br>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
 <script>
@@ -39,9 +41,11 @@ var x = d3.scale.linear()
 
 
 var y = d3.scale.linear()
+.domain([0, 10])
 .range([hoehe, 0]);
 
 var y2 = d3.scale.linear()
+.domain([0, 10])
 .range([hoehe, 0])
 
 var xAchse = d3.svg.axis()
@@ -71,8 +75,7 @@ queue()
 	.await(ready);
 function ready(error, frauen, maenner){
 x.domain(d3.extent(frauen, function(d){return d.Jahr;}))
-y.domain(d3.extent(frauen, function(d){return d.Wert;}))
-y2.domain(d3.extent(maenner, function(d){return d.Wert;}))
+
 
 svg.append("g")
 .attr("class", "x axis")
@@ -83,7 +86,9 @@ svg.append("g")
 .call(yAchse);
 svg.append("path").datum(frauen)
 .attr("class","line")
-.attr("d", linie);
+.attr("d", linie)
+.style("stroke", "orange");
+
 
 svg.append("path").datum(maenner)
 .attr("class","line")
@@ -96,3 +101,5 @@ svg.append("path").datum(maenner)
 
 
 </script>
+<br> Frauen: Orange <br> Männer: Grün </br>
+</body>
