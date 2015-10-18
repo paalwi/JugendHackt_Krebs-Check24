@@ -1,1 +1,1 @@
-foo
+Im Projekt Krebs-Check24 werden Daten visualisiert, die die Erkrankungsfälle und Todesfälle verschiedener Krebserkrankungen, getrennt nach Geschlecht un Bundesland darstellen. Die Darstellung wird mit Tableau Public umgesetzt, der Prototyp einer Website wurde mit Javascript sowie der d3-Bibliothek programmiert. Das Projekt soll das Thema für die Öffentlichkeit zugänglich machen. Dabei wollen wir die Enflüsse von Geschlecht und Bundesland veranschaulichen.
